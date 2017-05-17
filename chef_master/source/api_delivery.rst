@@ -240,6 +240,25 @@ In this configuration, ``lsyncd`` should not be running; any other value would i
             ]
           }
 
+**Compliance Filters**
+======================
+
++----------------+--------------------------------------------------+
+| Name           | Filters search results based on scans that have: |
++================+==================================================+
+|``start_time``  | end_times that are >= ``start_time``             |
++----------------+--------------------------------------------------+
+|``end_time``    | end_times that are <= ``end_time``               |
++----------------+--------------------------------------------------+
+|``environment`` | run in ``environment``                           |
++----------------+--------------------------------------------------+
+|``node_id``     | run on target with ``node_id``                   |
++----------------+--------------------------------------------------+
+|``platform``    | run on ``platform``                              |
++----------------+--------------------------------------------------+
+|``profile_id``  | run against this ``profile_id``                  |
++----------------+--------------------------------------------------+
+
 .. _compliance-market-api:
 
 /compliance/market
@@ -557,34 +576,39 @@ The ``GET`` method returns aggregated compliance results across one or more node
 
 This method has the following optional parameters:
 
-+-------------+------------+----------------------------------------------+
-| Parameter   | Type       | Description                                  |
-+=============+============+==============================================+
-| ``filters`` | string     | A set of kv pairs                            |
-|             |            |                                              |
-|             |            |                                              |
-|             |            |                                              |
-+-------------+------------+----------------------------------------------+
-| ``order``   | string     | The direction of the sort.                   |
-|             |            | Can be either ``asc`` or ``desc``.           |
-|             |            | Default: ``desc``                            |
-+-------------+------------+----------------------------------------------+
-| ``page``    | string     | page number for paginated data               |
-+-------------+------------+----------------------------------------------+
-| ``per_page``| string     | items per page                               |
-+-------------+------------+----------------------------------------------+
-| ``sort``    | string     | *What to sort results by. Can be any of      |
-|             |            | the following:*                              |
-|             |            |                                              |
-|             |            | - ``environment``                            |
-|             |            | - ``latest_report.controls.failed.critical`` |
-|             |            | - ``latest_report.controls.failed.total``    |
-|             |            | - ``latest_report.end_time``                 |
-|             |            | - ``latest_report.status``                   |
-|             |            | - ``name``                                   |
-|             |            | - ``platform``                               |
-|             |            | - ``status``                                 |
-+-------------+------------+----------------------------------------------+
++-------------+------------+------------------------------------------------+
+| Parameter   | Type       | Description                                    |
++=============+============+================================================+
+| ``filters`` | string     | The search keywords, as well as any qualifiers.|
+|             |            |                                                |
+|             |            | - ``end_time``                                 |
+|             |            | - ``start_time``                               |
+|             |            |                                                |
++-------------+------------+------------------------------------------------+
+| ``order``   | string     | The direction of the sort.                     |
+|             |            | Can be either ``asc`` or ``desc``.             |
+|             |            | Default: ``desc``                              |
++-------------+------------+------------------------------------------------+
+| ``page``    | string     | page number for paginated data                 |
++-------------+------------+------------------------------------------------+
+| ``per_page``| string     | items per page                                 |
++-------------+------------+------------------------------------------------+
+| ``sort``    | string     | *What to sort results by. Can be any of        |
+|             |            | the following:*                                |
+|             |            |                                                |
+|             |            | - ``environment``                              |
+|             |            | - ``latest_report.controls.failed.critical``   |
+|             |            | - ``latest_report.controls.failed.total``      |
+|             |            | - ``latest_report.end_time``                   |
+|             |            | - ``latest_report.status``                     |
+|             |            | - ``name``                                     |
+|             |            | - ``platform``                                 |
+|             |            | - ``status``                                   |
++-------------+------------+------------------------------------------------+
+
+
+
+
 
 **Request**
 
