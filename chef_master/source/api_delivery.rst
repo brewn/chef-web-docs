@@ -101,7 +101,7 @@ For example:
 
 For a standalone server, the response will be similar to:
 
-.. code-block:: javascript
+.. code-block:: json
 
    {
      "status": "pong",
@@ -124,7 +124,7 @@ The top-level ``status`` value refers to the state of the core Chef Automate ser
 
 For the primary server in a disaster recovery pair, the response will be similar to:
 
-.. code-block:: javascript
+.. code-block:: json
 
    {
      "status": "pong",
@@ -150,7 +150,7 @@ For ``lsyncd``, if the replication is up-to-date, ``latency`` should return 0; i
 
 For the standby server in a disaster recovery pair, the response will be similar to:
 
-.. code-block:: javascript
+.. code-block:: json
 
    {
      "status": "pong",
@@ -181,7 +181,7 @@ In this configuration, ``lsyncd`` should not be running; any other value would i
    * - ``200``
      - All services are OK. The response will show the service status as ``pong`` or ``not_running``. For example:
 
-       .. code-block:: javascript
+       .. code-block:: json
 
           {
             "status": "pong",
@@ -201,7 +201,7 @@ In this configuration, ``lsyncd`` should not be running; any other value would i
    * - ``500``
      - One (or more) services are down. The response will show the service status as ``fail`` or ``degraded``. For example:
 
-       .. code-block:: javascript
+       .. code-block:: json
 
           {
             "status": "pong",
@@ -220,7 +220,7 @@ In this configuration, ``lsyncd`` should not be running; any other value would i
 
        For example, if replication is not running:
 
-       .. code-block:: javascript
+       .. code-block:: json
 
           {
             "status": "pong",
@@ -239,6 +239,309 @@ In this configuration, ``lsyncd`` should not be running; any other value would i
               }
             ]
           }
+
+.. _compliance-market-api:
+
+/compliance/market
+-----------------------------------------------------
+The Chef Automate server may store multiple compliance profiles.
+
+The endpoint has the following methods: ``GET``.
+
+GET (profiles)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``GET`` method is used to get a list of compliance market profiles on the Chef Automate server.
+
+This method takes no query parameters.
+
+**Request**
+
+.. code-block:: none
+
+   GET /compliance/market/profiles
+
+For example:
+
+.. code-block:: bash
+
+   curl -X GET "https://my-auto-server.test/compliance/market/profiles" \
+   -H "chef-delivery-enterprise: acme" \
+   -H "chef-delivery-user: john" \
+   -H "chef-delivery-token: 7djW35..."
+
+**Response**
+
+The response is similar to:
+
+.. code-block:: json
+
+    [
+      {
+        "name": "linux-baseline",
+        "title": "DevSec Linux Security Baseline",
+        "maintainer": "DevSec Hardening Framework Team",
+        "copyright": "DevSec Hardening Framework Team",
+        "copyright_email": "hello@dev-sec.io",
+        "license": "Apache 2 license",
+        "summary": "Test-suite for best-preactice Linux OS hardening",
+        "version": "2.1.0",
+        "supports": [
+          {
+            "os-family": "linux"
+          }
+        ],
+        "depends": null
+      },
+      {
+        "name": "postgres-baseline",
+        "title": "Hardening Framework Postgres Hardening Test Suite",
+        "maintainer": "DevSec Hardening Framework Team",
+        "copyright": "DevSec Hardening Framework Team",
+        "copyright_email": "hello@dev-sec.io",
+        "license": "Apache 2 license",
+        "summary": "Test-suite for best-practice postgres hardening",
+        "version": "2.0.1",
+        "supports": [
+          {
+            "os-family": "unix"
+          }
+        ],
+        "depends": null
+      },
+      {
+        "name": "ssh-baseline",
+        "title": "DevSec SSH Baseline",
+        "maintainer": "DevSec Hardening Framework Team",
+        "copyright": "DevSec Hardening Framework Team",
+        "copyright_email": "hello@dev-sec.io",
+        "license": "Apache 2 license",
+        "summary": "Test-suite for best-practice SSH hardening",
+        "version": "2.2.0",
+        "supports": [
+          {
+            "os-family": "unix"
+          }
+        ],
+        "depends": null
+      }
+    ]
+
+**Response Codes**
+
+.. list-table::
+   :widths: 100 400
+   :header-rows: 1
+
+   * - Response Code
+     - Description
+   * - ``200``
+     - OK. The request was successful.
+   * - ``401``
+     - Unauthorized. The user who made the request is not authorized to perform the action.
+
+
+GET (named profile)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``GET`` method is used to get the profile of a given NAME.
+
+This method takes no query parameters.
+
+**Request**
+
+.. code-block:: none
+
+   GET /compliance/market/profiles/NAME
+
+For example:
+
+.. code-block:: bash
+
+   curl -X GET "https://my-auto-server.test/compliance/market/profiles/linux-baseline" \
+   -H "chef-delivery-enterprise: acme" \
+   -H "chef-delivery-user: john" \
+   -H "chef-delivery-token: 7djW35..."
+
+**Response**
+
+The response is similar to:
+
+.. code-block:: json
+
+   [
+      {
+         "name": "linux-baseline",
+         "title": "DevSec Linux Security Baseline",
+         "maintainer": "DevSec Hardening Framework Team",
+         "copyright": "DevSec Hardening Framework Team",
+         "copyright_email": "hello@dev-sec.io",
+         "license": "Apache 2 license",
+         "summary": "Test-suite for best-preactice Linux OS hardening",
+         "version": "2.1.0",
+         "supports": [
+            {
+               "os-family": "linux"
+            }
+         ],
+         "depends": null
+     }
+   ]
+
+**Response Codes**
+
+.. list-table::
+   :widths: 100 400
+   :header-rows: 1
+
+   * - Response Code
+     - Description
+   * - ``200``
+     - OK. The request was successful.
+   * - ``401``
+     - Unauthorized. The user who made the request is not authorized to perform the action.
+
+GET (named profile version specific)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``GET`` method is used to get one specific VERSION of a profile of a given NAME.
+
+This method takes no query parameters.
+
+**Request**
+
+.. code-block:: none
+
+   GET /compliance/market/profiles/NAME/version/VERSION
+
+For example:
+
+.. code-block:: bash
+
+   curl -X GET "https://my-auto-server.test/compliance/market/profiles/linux-baseline/version/2.1.0" \
+   -H "chef-delivery-enterprise: acme" \
+   -H "chef-delivery-user: john" \
+   -H "chef-delivery-token: 7djW35..."
+
+**Response**
+
+The response is similar to:
+
+.. code-block:: json
+
+   [
+      {
+         "name": "linux-baseline",
+         "title": "DevSec Linux Security Baseline",
+         "maintainer": "DevSec Hardening Framework Team",
+         "copyright": "DevSec Hardening Framework Team",
+         "copyright_email": "hello@dev-sec.io",
+         "license": "Apache 2 license",
+         "summary": "Test-suite for best-preactice Linux OS hardening",
+         "version": "2.1.0",
+         "supports": [
+            {
+               "os-family": "linux"
+            }
+         ],
+         "depends": null
+     }
+   ]
+
+**Response Codes**
+
+.. list-table::
+   :widths: 100 400
+   :header-rows: 1
+
+   * - Response Code
+     - Description
+   * - ``200``
+     - OK. The request was successful.
+   * - ``401``
+     - Unauthorized. The user who made the request is not authorized to perform the action.
+
+
+GET (named profile tar)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``GET`` method is used to get the latest version of a market profile tarball as specified by the NAME path parameter.
+
+This method takes no query parameters.
+
+**Request**
+
+.. code-block:: none
+
+   GET /compliance/market/profiles/NAME/tar
+
+For example:
+
+.. code-block:: bash
+
+   curl -o linux-baseline.tar \
+   "https://my-auto-server.test/compliance/market/profiles/linux-baseline/tar" \
+   -H "chef-delivery-enterprise: acme" \
+   -H "chef-delivery-user: john" \
+   -H "chef-delivery-token: 7djW35..."
+
+**Response**
+
+TAR STREAM - download of the file requested (if it exists)
+
+
+**Response Codes**
+
+.. list-table::
+   :widths: 100 400
+   :header-rows: 1
+
+   * - Response Code
+     - Description
+   * - ``200``
+     - OK. The request was successful.
+   * - ``401``
+     - Unauthorized. The user who made the request is not authorized to perform the action.
+   * - ``404``
+     - Not found. The requested profile was not found.
+
+GET (named profile tar version specific)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``GET`` method is used to get the market profile tarball for the given NAME and VERSION.
+
+This method takes no query parameters.
+
+**Request**
+
+.. code-block:: none
+
+   GET /compliance/market/profiles/NAME/version/VERSION/tar
+
+For example:
+
+.. code-block:: bash
+
+   curl -o linux-baseline.tar \
+   "https://my-auto-server.test/compliance/market/profiles/linux-baseline/version/2.1.0/tar" \
+   -H "chef-delivery-enterprise: acme" \
+   -H "chef-delivery-user: john" \
+   -H "chef-delivery-token: 7djW35..."
+
+**Response**
+
+TAR STREAM - download of the file requested (if it exists)
+
+
+**Response Codes**
+
+.. list-table::
+   :widths: 100 400
+   :header-rows: 1
+
+   * - Response Code
+     - Description
+   * - ``200``
+     - OK. The request was successful.
+   * - ``401``
+     - Unauthorized. The user who made the request is not authorized to perform the action.
+   * - ``404``
+     - Not found. The requested profile was not found.
 
 .. _compliance-profile-api:
 
