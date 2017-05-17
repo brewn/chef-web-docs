@@ -551,141 +551,52 @@ latest scans at the specified point in time.
 
 The endpoint has the following methods: ``GET``.
 
-GET /nodes
+GET (nodes)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++
 The ``GET`` method returns aggregated compliance results across one or more nodes.
 
 This method has the following optional parameters:
 
-+-------------+------------+------------------------------------------+
-| Parameter   | Type       | Description                              |
-+=============+============+==========================================+
-| ``filters`` | string     | A set of kv pairs                        |
-|             |            |                                          |
-|             |            |                                          |
-|             |            |                                          |
-+-------------+------------+------------------------------------------+
-| ``order``   | string     | asc or desc                              |
-+-------------+------------+------------------------------------------+
-| ``page``    | string     | page number for paginated data           |
-+-------------+------------+------------------------------------------+
-| ``per_page``| string     | items per page                           |
-+-------------+------------+------------------------------------------+
-| ``sort``    | string     | *The attribute to sort on. May be any of |
-|             |            | the following:*                          |
-|             |            |                                          |
-|             |            | - environment                            |
-|             |            | - latest_report.controls.failed.critical |
-|             |            | - latest_report.controls.failed.total    |
-|             |            | - latest_report.end_time                 |
-|             |            | - latest_report.status                   |
-|             |            | - name                                   |
-|             |            | - platform                               |
-|             |            | - status                                 |
-+-------------+------------+------------------------------------------+
++-------------+------------+----------------------------------------------+
+| Parameter   | Type       | Description                                  |
++=============+============+==============================================+
+| ``filters`` | string     | A set of kv pairs                            |
+|             |            |                                              |
+|             |            |                                              |
+|             |            |                                              |
++-------------+------------+----------------------------------------------+
+| ``order``   | string     | The direction of the sort.                   |
+|             |            | Can be either ``asc`` or ``desc``.           |
+|             |            | Default: ``desc``                            |
++-------------+------------+----------------------------------------------+
+| ``page``    | string     | page number for paginated data               |
++-------------+------------+----------------------------------------------+
+| ``per_page``| string     | items per page                               |
++-------------+------------+----------------------------------------------+
+| ``sort``    | string     | *What to sort results by. Can be any of      |
+|             |            | the following:*                              |
+|             |            |                                              |
+|             |            | - ``environment``                            |
+|             |            | - ``latest_report.controls.failed.critical`` |
+|             |            | - ``latest_report.controls.failed.total``    |
+|             |            | - ``latest_report.end_time``                 |
+|             |            | - ``latest_report.status``                   |
+|             |            | - ``name``                                   |
+|             |            | - ``platform``                               |
+|             |            | - ``status``                                 |
++-------------+------------+----------------------------------------------+
 
 **Request**
 
 .. code-block:: none
 
-   GET /compliance/market/profiles
+   GET /compliance/nodes
 
 For example:
 
 .. code-block:: bash
 
-   curl -X GET "https://my-auto-server.test/compliance/market/profiles" \
-   -H "chef-delivery-enterprise: acme" \
-   -H "chef-delivery-user: john" \
-   -H "chef-delivery-token: 7djW35..."
-
-**Response**
-
-The response is similar to:
-
-.. code-block:: json
-
-    [
-      {
-        "name": "linux-baseline",
-        "title": "DevSec Linux Security Baseline",
-        "maintainer": "DevSec Hardening Framework Team",
-        "copyright": "DevSec Hardening Framework Team",
-        "copyright_email": "hello@dev-sec.io",
-        "license": "Apache 2 license",
-        "summary": "Test-suite for best-preactice Linux OS hardening",
-        "version": "2.1.0",
-        "supports": [
-          {
-            "os-family": "linux"
-          }
-        ],
-        "depends": null
-      },
-      {
-        "name": "postgres-baseline",
-        "title": "Hardening Framework Postgres Hardening Test Suite",
-        "maintainer": "DevSec Hardening Framework Team",
-        "copyright": "DevSec Hardening Framework Team",
-        "copyright_email": "hello@dev-sec.io",
-        "license": "Apache 2 license",
-        "summary": "Test-suite for best-practice postgres hardening",
-        "version": "2.0.1",
-        "supports": [
-          {
-            "os-family": "unix"
-          }
-        ],
-        "depends": null
-      },
-      {
-        "name": "ssh-baseline",
-        "title": "DevSec SSH Baseline",
-        "maintainer": "DevSec Hardening Framework Team",
-        "copyright": "DevSec Hardening Framework Team",
-        "copyright_email": "hello@dev-sec.io",
-        "license": "Apache 2 license",
-        "summary": "Test-suite for best-practice SSH hardening",
-        "version": "2.2.0",
-        "supports": [
-          {
-            "os-family": "unix"
-          }
-        ],
-        "depends": null
-      }
-    ]
-
-**Response Codes**
-
-.. list-table::
-   :widths: 100 400
-   :header-rows: 1
-
-   * - Response Code
-     - Description
-   * - ``200``
-     - OK. The request was successful.
-   * - ``401``
-     - Unauthorized. The user who made the request is not authorized to perform the action.
-
-GET (profile by name)
-+++++++++++++++++++++++++++++++++++++++++++++++++++++
-The ``GET`` method is used to get the profile of a given NAME.
-
-This method takes no query parameters.
-
-**Request**
-
-.. code-block:: none
-
-   GET /compliance/market/profiles/NAME
-
-For example:
-
-.. code-block:: bash
-
-   curl -X GET "https://my-auto-server.test/compliance/market/profiles/linux-baseline" \
+   curl -X GET "https://my-auto-server.test/compliance/nodes" \
    -H "chef-delivery-enterprise: acme" \
    -H "chef-delivery-user: john" \
    -H "chef-delivery-token: 7djW35..."
@@ -697,23 +608,150 @@ The response is similar to:
 .. code-block:: json
 
    [
-      {
-         "name": "linux-baseline",
-         "title": "DevSec Linux Security Baseline",
-         "maintainer": "DevSec Hardening Framework Team",
-         "copyright": "DevSec Hardening Framework Team",
-         "copyright_email": "hello@dev-sec.io",
-         "license": "Apache 2 license",
-         "summary": "Test-suite for best-preactice Linux OS hardening",
-         "version": "2.1.0",
-         "supports": [
-            {
-               "os-family": "linux"
-            }
-         ],
-         "depends": null
+     {
+       "id": "74a54a28-c628-4f82-86df-61c43866db6a",
+       "name": "teal-spohn",
+       "platform": {
+         "name": "centos"
+       },
+       "environment": "DevSec Prod Alpha",
+       "latest_report": {
+         "id": "3ca95021-84c1-43a6-a2e7-be10edcb238d",
+         "end_time": "2017-04-04T10:18:41+01:00",
+         "status": "failed",
+         "controls": {
+           "total": 113,
+           "passed": {
+             "total": 22
+           },
+           "skipped": {
+             "total": 68
+           },
+           "failed": {
+             "total": 23,
+             "minor": 0,
+             "major": 0,
+             "critical": 23
+           }
+         }
+       }
+     },
+     {
+       "id": "99516108-8126-420e-b03e-a90a52f25751",
+       "name": "red-brentwood",
+       "platform": {
+         "name": "debian"
+       },
+       "environment": "DevSec Prod Zeta",
+       "latest_report": {
+         "id": "44024b50-2e0d-42fa-a57c-25e05e48a1b5",
+         "end_time": "2017-03-06T09:18:41Z",
+         "status": "failed",
+         "controls": {
+           "total": 59,
+           "passed": {
+             "total": 23
+           },
+           "skipped": {
+             "total": 14
+           },
+           "failed": {
+             "total": 22,
+             "minor": 0,
+             "major": 0,
+             "critical": 22
+           }
+         }
+       }
      }
    ]
+
+
+**Response Codes**
+
+.. list-table::
+   :widths: 100 420
+   :header-rows: 1
+
+   * - Response Code
+     - Description
+   * - ``200``
+     - OK. The request was successful.
+   * - ``400``
+     - Bad Request. Something is wrong with the request. Client should look closely at the request they're making.
+   * - ``401``
+     - Unauthorized. The user who made the request is not authorized to perform the action.
+   * - ``500``
+     - Internal Server Error. Problem on the backend.
+
+GET (node by name)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ``GET`` method is used to get the profile of a given NAME.
+
+This method takes no query parameters.
+
+**Request**
+
+.. code-block:: none
+
+   GET /compliance/nodes/NODE
+
+For example:
+
+.. code-block:: bash
+
+   curl -X GET "https://my-auto-server.test/compliance/nodes/74a54a28-c628-4f82-86df-61c43866db6a" \
+   -H "chef-delivery-enterprise: acme" \
+   -H "chef-delivery-user: john" \
+   -H "chef-delivery-token: 7djW35..."
+
+**Response**
+
+The response is similar to:
+
+.. code-block:: json
+
+   {
+     "id": "74a54a28-c628-4f82-86df-61c43866db6a",
+     "name": "teal-spohn",
+     "platform": {
+       "name": "centos",
+       "release": "5.11"
+     },
+     "environment": "DevSec Prod Alpha",
+     "latest_report": {
+       "id": "3ca95021-84c1-43a6-a2e7-be10edcb238d",
+       "end_time": "0001-01-01T00:00:00Z",
+       "status": "failed",
+       "controls": {
+         "total": 113,
+         "passed": {
+           "total": 22
+         },
+         "skipped": {
+           "total": 68
+         },
+         "failed": {
+           "total": 23,
+           "minor": 0,
+           "major": 0,
+           "critical": 23
+         }
+       }
+     },
+     "profiles": [
+       {
+         "name": "linux-baseline",
+         "version": "2.0.1",
+         "id": "b53ca05fbfe17a36363a40f3ad5bd70aa20057eaf15a9a9a8124a84d4ef08015"
+       },
+       {
+         "name": "ssh-baseline",
+         "version": "2.1.1",
+         "id": "3984753145f0db693e2c6fc79f764e9aff78d892a874391fc5f5cc18f4675b68"
+       }
+     ]
+   }
 
 **Response Codes**
 
@@ -725,8 +763,12 @@ The response is similar to:
      - Description
    * - ``200``
      - OK. The request was successful.
-   * - ``401``
-     - Unauthorized. The user who made the request is not authorized to perform the action.
+   * - ``400``
+     - Bad Request. Something is wrong with the request. Client should look closely at the request they're making.
+   * - ``404``
+     - Not Found. The resource was not found.
+   * - ``500``
+     - Internal Server Error. Problem on the backend.
 
 .. _compliance-profile-api:
 
