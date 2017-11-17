@@ -226,7 +226,7 @@ A ``Policyfile.rb`` file may contain the following settings:
   ``include_policy "NAME", policy_name: "foo", policy_group: "prod", server: "http://example.com"`` pulls and locks the current revision for policy ``foo`` in policy group ``prod``.
 
    .. note:: More Information:
-      * This directive is supported as of Chef-DK 2.5
+      * This directive is supported as of Chef-DK 2.4.13
       * The full specification for this feature can be found at `[RFC097]https://github.com/chef/chef-rfc/blob/master/rfc097-policyfile-includes.md`
 
 .. end_tag
