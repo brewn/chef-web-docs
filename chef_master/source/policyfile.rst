@@ -215,23 +215,11 @@ A ``Policyfile.rb`` file may contain the following settings:
 
   ``include_policy "NAME", path: "./foo.lock.json"`` pulls the lock from ``./foo.lock.json``.
 
-  Pull the policy ``NAME`` with revision ID ``revision1`` from the ``http://chef-server.example`` Chef server:
+  ``include_policy "NAME", policy_revision_id: "revision1", server: "http://chef-server.example"`` pulls the policy ``NAME`` with revision ID ``revision1`` from the ``http://chef-server.example`` Chef server.
 
-  .. code-block:: ruby
+  ``include_policy "NAME", policy_name: "foo", policy_revision_id: "revision1", server: "http://chef-server.example"`` pulls the policy ``foo`` with revision ID ``revision1``.
 
-     include_policy "NAME", policy_revision_id: "revision1", server: "http://chef-server.example"
-
-  Pull the policy ``foo`` with revision ID ``revision1``:
-
-  .. code-block:: ruby
-
-     include_policy "NAME", policy_name: "foo", policy_revision_id: "revision1", server: "http://chef-server.example"
-
-  Pull and lock the current revision for policy ``foo`` in policy group ``prod``:
-
-  .. code-block:: ruby
-
-     include_policy "NAME", policy_name: "foo", policy_group: "prod", server: "http://chef-server.example"
+  ``include_policy "NAME", policy_name: "foo", policy_group: "prod", server: "http://chef-server.example"`` pulls and locks the current revision for policy ``foo`` in policy group ``prod``.
 
 .. end_tag
 
